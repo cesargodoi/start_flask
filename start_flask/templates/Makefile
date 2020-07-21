@@ -9,13 +9,26 @@ clean:
 	rm -rf htmlcov
 	rm -rf .tox/
 	rm -rf docs/_build
+
 install:
 	pip install -e .
+
 install-dev:
 	pip install -e .['dev']
-test:
-	FLASK_ENV=test pytest tests/ -v --cov=delivery
+
 run:
 	FLASK_APP={{ proj }}/app.py flask run
+
 run-dev:
 	FLASK_APP={{ proj }}/app.py FLASK_ENV=development flask run
+
+init-db:
+	FLASK_APP=delivery/app.py flask create-db
+	FLASK_APP=delivery/app.py flask db upgrade
+
+test:
+	FLASK_ENV=test pytest tests/ -v --cov=delivery
+
+format:
+	isort **/*.py
+	black -l 79 **/*.py
