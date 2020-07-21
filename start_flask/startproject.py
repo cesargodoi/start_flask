@@ -120,7 +120,7 @@ class Project:
 def start_flask():
     print("\n### Flask Project Builder ###\n")
 
-    proj, venv, sqlal = "", None, None
+    proj, afp, venv, sqlal = "", None, None, None
 
     # trying to get: proj, venv and sqlal on the command line
     if sys.argv[1:]:
