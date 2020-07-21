@@ -1,0 +1,177 @@
+## text for files ######################################################
+
+# /tests/test_app.py
+self.test_app = (
+    "def test_app_is_created(app):\n"
+    f"    assert app.name == '{self.proj}.app'\n\n"
+    "def test_config_is_loaded(config):\n"
+    "    assert config['DEBUG'] is False"
+    " # is True if FLASK_ENV=development\n\n"
+    "def test_request_returns_404(client):\n"
+    "    assert client.get('/some_invalid_route').status_code == 404\n"
+)
+# /<proj>/ext/site/main.py
+self.main_site = (
+    "from flask import Blueprint\n\n\n"
+    "bp = Blueprint('site', __name__)\n\n"
+    "@bp.route('/')\n"
+    "def index():\n"
+    f"    return 'Hello, {self.proj.upper()}!'\n"
+)
+# /<proj>/ext/site/__init__.py
+self.init_site = (
+    "from .main import bp\n\n\n"
+    "def init_app(app):\n"
+    "    app.register_blueprint(bp)\n"
+)
+
+if self.sqlal:
+    # /<proj>/ext/db/__init__.py
+    self.init_db = (
+        "from flask_migrate import Migrate\n"
+        "from flask_sqlalchemy import SQLAlchemy\n\n\n"
+        "db = SQLAlchemy()\n"
+        "migrate = Migrate()\n\n"
+        "def init_app(app):\n"
+        "    db.init_app(app)\n"
+        "    migrate.init_app(app, db)\n"
+    )
+    # /<proj>/ext/db/command.py
+    self.commands_db = (
+        f"from {self.proj}.ext.auth.models import User\n"
+        f"from {self.proj}.ext.db import db\n\n\n"
+        "def create_db():\n"
+        "    '''Creates database'''\n"
+        "    db.create_all()\n\n"
+        "def drop_db():\n"
+        "    '''Cleans database'''\n"
+        "    db.drop_all()\n"
+    )
+    # /<proj>/ext/auth/__init__.py
+    self.init_auth = (
+        f"from {self.proj}.ext.admin import admin as base_admin\n"
+        f"from {self.proj}.ext.auth.admin import UserAdmin\n"
+        f"from {self.proj}.ext.auth.models import User\n"
+        f"from {self.proj}.ext.db import db\n\n\n"
+        "def init_app(app):\n"
+        "    '''TODO: init Flask Simple Login + JWT'''\n"
+        "    base_admin.add_view(UserAdmin(User, db.session))\n\n"
+    )
+    # /<proj>/ext/auth/models.py
+    self.models_auth = (
+        f"from {self.proj}.ext.db import db\n\n\n"
+        "class User(db.Model):\n"
+        "    __tablename__ = 'user'\n"
+        "    id = db.Column('id', db.Integer, primary_key=True)\n"
+        "    email = db.Column('email', db.String(100), unique=True, "
+        "nullable=False)\n"
+        "    passwd = db.Column('passwd', db.String)\n"
+        "    admin = db.Column('admin', db.Boolean)\n\n"
+        "    def __repr__(self):\n"
+        "        return self.email\n"
+    )
+    # /<proj>/ext/auth/admin.py
+    self.admin_auth = (
+        "from flask import Markup, flash\n"
+        "from flask_admin.actions import action\n"
+        "from flask_admin.contrib.sqla import ModelView, filters\n\n"
+        f"from {self.proj}.ext.auth.models import User\n"
+        f"from {self.proj}.ext.db import db\n\n\n"
+        "class UserAdmin(ModelView):\n"
+        "    '''Interface admin de user'''\n\n"
+        "    def format_user(self, request, user, *args):\n"
+        "        return user.email.split('@')[0]\n\n"
+        "    column_formatters = {\n"
+        "        'email': format_user\n"
+        "    }\n\n"
+        "    column_list = ['admin', 'email']\n\n"
+        "    column_labels = {'email': 'User login'}\n\n"
+        "    column_searchable_list = ['email']\n\n"
+        "    column_filters = [\n"
+        "        'email',\n        'admin',\n"
+        "        filters.FilterLike(\n"
+        "            User.email, 'dominio', options=(\n"
+        "                ('gmail', 'Gmail'), ('uol', 'Uol')\n"
+        "            )\n"
+        "        ),\n"
+        "    ]\n\n"
+        "    can_edit = False\n\n"
+        "    can_create = True\n\n"
+        "    can_delete = True\n\n"
+        "    # exemple of flask action\n"
+        "    @action('toggle_admin', 'Toggle admin status', "
+        "'Are you sure?')\n"
+        "    def toggle_admin_status(self, ids):\n"
+        "        users = User.query.filter(User.id.in_(ids))\n"
+        "        for user in users.all():\n"
+        "            user.admin = not user.admin\n"
+        "        db.session.commit()\n"
+        "        flash('Success!', 'success')\n"
+    )
+
+# /<proj>/ext/config.py
+if self.sqlal:
+    self.config = (
+        "def init_app(app):\n"
+        "    app.config['SECRET_KEY'] = 'super_secret'\n"
+        "    app.config['SQLALCHEMY_DATABASE_URI'] = "
+        f"'sqlite:///{self.proj}.db'\n"
+        "    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False\n"
+        "    app.config['FLASK_ADMIN_SWATCH'] = 'darkly'\n\n"
+        "    if app.debug:\n"
+        "        app.config['DEBUG_TB_TEMPLATE_EDITOR_ENABLED'] = True\n"
+        "        app.config['DEBUG_TB_PROFILER_ENABLED'] = True\n"
+        "        app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False\n"
+    )
+else:
+    self.config = (
+        "def init_app(app):\n"
+        "    # here we pass the settings of our project\n"
+        "    pass"
+    )
+# /<proj>/ext/cli.py
+self.cli = (
+    "import click\n\n\n"
+    "def init_app(app):\n"
+    "    # here we create our commands (cli)\n"
+    "    # exemple:\n"
+    "    @app.cli.command()\n"
+    "    def do_something():\n"
+    "        '''Simple command that do something'''\n"
+    "        click.echo('Doing something')\n"
+)
+# /<proj>/ext/admin.py
+self.admin = (
+    "from flask_admin import Admin\n"
+    "from flask_admin.contrib.sqla import ModelView\n\n"
+    f"from {self.proj}.ext.db import db\n\n\n"
+    "admin = Admin()\n\n"
+    "def init_app(app):\n"
+    f"    admin.name = '{self.proj.upper()}'\n"
+    "    admin.template_mode = 'bootstrap3'\n"
+    "    admin.init_app(app)\n\n"
+    "    # if we have another table to use in the admin,\n"
+    "    # we can do it like this\n"
+    "    # admin.add_view(ModelView(<another_table>, db.session))\n\n"
+)
+
+# /<proj>/app.py
+imports = "site, config, cli"
+if self.sqlal:
+    imports += ", db, admin"
+other_inits = ""
+if self.sqlal:
+    other_inits = "    db.init_app(app)\n    admin.init_app(app)\n"
+
+self.app = (
+    "from flask import Flask\n"
+    f"from {self.proj}.ext import {imports}\n\n\n"
+    "def create_app():\n"
+    "    app = Flask(__name__)\n"
+    "    config.init_app(app)\n"
+    f"{other_inits}"
+    "\n    # here we invoke each extension's init_app function\n\n"
+    "    cli.init_app(app)\n"
+    "    site.init_app(app)\n"
+    "    return app\n"
+)

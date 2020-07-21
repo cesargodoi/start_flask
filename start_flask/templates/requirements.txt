@@ -1,0 +1,6 @@
+flask
+{%- if sqlal %}
+flask-sqlalchemy
+flask-migrate
+flask-admin
+{%- endif %}
