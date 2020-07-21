@@ -1,5 +1,5 @@
 def init_app(app):
-    {% if sqlal %}
+    {%- if sqlal %}
     app.config['SECRET_KEY'] = 'super_secret'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{{ proj }}.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -10,8 +10,7 @@ def init_app(app):
         app.config['DEBUG_TB_PROFILER_ENABLED'] = True
         app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-    {% else %}
+    {%- else %}
     # here we pass the settings of our project
     pass
-
-    {% endif %}
+    {%- endif %}

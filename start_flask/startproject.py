@@ -13,7 +13,7 @@ class Project:
 
     def render_template(self, template):
         if "/" in template:
-            _input = template.split("/")[-1]
+            _input = "/".join(template.split("/")[1:])
         else:
             _input = template
 
@@ -65,54 +65,46 @@ class Project:
         self.render_template("setup.py")
 
         # /proj
-        os.system(f"touch {self.proj}/{self.proj}/__init__.py")
-        self.render_template(f"{self.proj}/app.py")
+        if self.afp:
+            os.system(f"touch {self.proj}/{self.proj}/__init__.py")
+            self.render_template(f"{self.proj}/app.py")
+        else:
+            os.system(f"touch {self.proj}/__init__.py")
+            self.render_template("app.py")
 
         # /test
-        self.render_template(f"/tests/conftest.py")
-        self.render_template(f"/tests/test_app.py")
+        self.render_template("tests/conftest.py")
+        self.render_template("tests/test_app.py")
 
-        # with open(f"{self.proj}/tests/test_app.py", "w") as fl:
-        #     fl.write(self.test_app)
-        # # /proj/ext
-        # os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
-        # with open(f"{self.proj}/{self.proj}/ext/config.py", "w") as fl:
-        #     fl.write(self.config)
-        # with open(f"{self.proj}/{self.proj}/ext/cli.py", "w") as fl:
-        #     fl.write(self.cli)
+        # /proj/ext
+        if self.afp:
+            os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
+            self.render_template(f"{self.proj}/ext/config.py")
+            self.render_template(f"{self.proj}/ext/cli.py")
+            if self.sqlal:
+                self.render_template(f"{self.proj}/ext/admin.py")
 
-        # if self.sqlal:
-        #     with open(f"{self.proj}/{self.proj}/ext/admin.py", "w") as fl:
-        #         fl.write(self.admin)
+            # /proj/ext/site
+            self.render_template(f"{self.proj}/ext/site/main.py")
+            self.render_template(f"{self.proj}/ext/site/__init__.py")
 
-        # # /proj/ext/site
-        # with open(f"{self.proj}/{self.proj}/ext/site/main.py", "w") as fl:
-        #     fl.write(self.main_site)
-        # with open(f"{self.proj}/{self.proj}/ext/site/__init__.py", "w") as fl:
-        #     fl.write(self.init_site)
+            if self.sqlal:
+                # /proj/ext/db
+                self.render_template(f"{self.proj}/ext/db/__init__.py")
+                self.render_template(f"{self.proj}/ext/db/commands.py")
 
-        # if self.sqlal:
-        #     # /proj/ext/db
-        #     with open(f"{self.proj}/{self.proj}/ext/db/__init__.py", "w") as fl:
-        #         fl.write(self.init_db)
-        #     with open(f"{self.proj}/{self.proj}/ext/db/commands.py", "w") as fl:
-        #         fl.write(self.commands_db)
-        #     # /proj/ext/auth
-        #     with open(
-        #         f"{self.proj}/{self.proj}/ext/auth/__init__.py", "w"
-        #     ) as fl:
-        #         fl.write(self.init_auth)
-        #     with open(f"{self.proj}/{self.proj}/ext/auth/models.py", "w") as fl:
-        #         fl.write(self.models_auth)
-        #     with open(f"{self.proj}/{self.proj}/ext/auth/admin.py", "w") as fl:
-        #         fl.write(self.admin_auth)
+                # /proj/ext/auth
+                self.render_template(f"{self.proj}/ext/auth/__init__.py")
+                self.render_template(f"{self.proj}/ext/auth/models.py")
+                self.render_template(f"{self.proj}/ext/auth/admin.py")
+            
 
-    # def create_venv(self):
-    #     print("3 - Creating virtual env (.venv) ...")
-    #     os.chdir(f"{self.proj}")
-    #     os.system("python3 -m venv .venv")
-    #     os.system(".venv/bin/pip install -q --upgrade pip")
-    #     os.system(".venv/bin/pip install -q -r requirements.txt")
+    def create_venv(self):
+        print("3 - Creating virtual env (.venv) ...")
+        os.chdir(f"{self.proj}")
+        os.system("python3 -m venv .venv")
+        os.system(".venv/bin/pip install -q --upgrade pip")
+        os.system(".venv/bin/pip install -q -r requirements.txt")
 
 
 # Starting project #############################################################
@@ -143,14 +135,14 @@ def start_flask():
         venv = True if input() in "YySs" else False
 
     # to use SQLAlchemy?
-    if not sqlal:
+    if not sqlal and afp is True:
         print("Do you want to use the SQLAlchemy? (Y/n)")
         sqlal = True if input() in "YySs" else False
 
     project = Project(proj, afp, venv, sqlal)
     project.dir_extrutures()
     project.write_files()
-    # if venv:
-    #     project.create_venv()
+    if venv:
+        project.create_venv()
 
     print("\nAll done!")
