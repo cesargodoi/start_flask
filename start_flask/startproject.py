@@ -70,9 +70,8 @@ class Project:
 
         # /test
         self.render_template(f"/tests/conftest.py")
+        self.render_template(f"/tests/test_app.py")
 
-        # with open(f"{self.proj}/tests/conftest.py", "w") as fl:
-        #     fl.write(self.conftest)
         # with open(f"{self.proj}/tests/test_app.py", "w") as fl:
         #     fl.write(self.test_app)
         # # /proj/ext
