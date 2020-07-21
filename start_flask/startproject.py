@@ -17,7 +17,7 @@ class Project:
         else:
             _input = template
 
-        env = Environment(loader=FileSystemLoader("start_flask_afp/templates"))
+        env = Environment(loader=FileSystemLoader("start_flask/templates"))
         _template = env.get_template(_input)
 
         with open(f"{self.proj}/{template}", "w") as fl:
