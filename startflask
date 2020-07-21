@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #!.venv/bin/python3
-=======
-#!/Users/jady/Coding/start_flask/.venv/bin/python3
->>>>>>> a497ed2e945e7bd1e512e4dc2aafafb132797552
 # -*- coding: utf-8 -*-
 import re
 import sys
