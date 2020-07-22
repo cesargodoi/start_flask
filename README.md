@@ -46,39 +46,39 @@ In the `Makefile` file, we have some useful commands, which we use with the `mak
 
 ## Structure provided
 ~~~bash
-<project name>/
-├── <project name>/
-│   ├── ext/ 
-│   │   ├── auth/
-│   │   │   ├── __init__.py
-│   │   │   ├── admin.py
-│   │   │   └── models.py
-│   │   ├── db/
-│   │   │   ├── __init__.py
-│   │   │   └── commands.py
-│   │   ├── site/
-│   │   │   ├── __init__.py
-│   │   │   └── main.py
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── cli.py
-│   │   └── config.py
-│   ├── static/
-│   │   ├── ccs/
-│   │   ├── img/
-│   │   └── js/
-│   ├── templates/
-│   ├── __init__.py
-│   └── app.py --> project entry point
-├── tests/
-│   ├── conftest.py
-│   └── test_app.py --> with 3 tests
+.
 ├── LICENCE
 ├── Makefile
+├── project_name
+│   ├── app.py
+│   ├── ext
+│   │   ├── admin.py
+│   │   ├── auth
+│   │   │   ├── admin.py
+│   │   │   ├── __init__.py
+│   │   │   └── models.py
+│   │   ├── cli.py
+│   │   ├── config.py
+│   │   ├── db
+│   │   │   ├── commands.py
+│   │   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   └── site
+│   │       ├── __init__.py
+│   │       └── main.py
+│   ├── __init__.py
+│   ├── static
+│   │   ├── css
+│   │   ├── img
+│   │   └── js
+│   └── templates
 ├── README.md
-├── requirements.txt
 ├── requirements-dev.txt
-└── setup.py
+├── requirements.txt
+├── setup.py
+└── tests
+    ├── conftest.py
+    └── test_app.py
 ~~~
 
 ---
