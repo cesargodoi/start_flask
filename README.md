@@ -45,40 +45,40 @@ In the `Makefile` file, we have some useful commands, which we use with the `mak
 
 
 ## Structure provided
-~~~sh
+~~~bash
 <project name>/
-+-- <project name>/
-|   +-- ext/ 
-|   |   +-- auth/
-|   |   |   +-- __init__.py
-|   |   |   +-- admin.py
-|   |   |   +-- models.py
-|   |   +-- db/
-|   |   |   +-- __init__.py
-|   |   |   +-- commands.py
-|   |   +-- site/
-|   |   |   +-- __init__.py
-|   |   |   +-- main.py
-|   |   +-- __init__.py
-|   |   +-- admin.py
-|   |   +-- cli.py
-|   |   +-- config.py
-|   +-- static/
-|   |   +-- ccs/
-|   |   +-- img/
-|   |   +-- js/
-|   +-- templates/
-|   +-- __init__.py
-|   +-- app.py --> project entry point
-+-- tests/
-|   +-- conftest.py
-|   +-- test_app.py --> with 3 tests
-+-- LICENCE
-+-- Makefile
-+-- README.md
-+-- requirements.txt
-+-- requirements-dev.txt
-+-- setup.py
+├── <project name>/
+│   ├── ext/ 
+│   │   ├── auth/
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   └── models.py
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   └── commands.py
+│   │   ├── site/
+│   │   │   ├── __init__.py
+│   │   │   └── main.py
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── cli.py
+│   │   └── config.py
+│   ├── static/
+│   │   ├── ccs/
+│   │   ├── img/
+│   │   └── js/
+│   ├── templates/
+│   ├── __init__.py
+│   └── app.py --> project entry point
+├── tests/
+│   ├── conftest.py
+│   └── test_app.py --> with 3 tests
+├── LICENCE
+├── Makefile
+├── README.md
+├── requirements.txt
+├── requirements-dev.txt
+└── setup.py
 ~~~
 
 ---
