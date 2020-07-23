@@ -21,11 +21,11 @@ run:
 
 run-dev:
 	FLASK_APP={{ proj }}/app.py FLASK_ENV=development flask run
-
+{% if sqlal %}
 init-db:
 	FLASK_APP=delivery/app.py flask create-db
 	FLASK_APP=delivery/app.py flask db upgrade
-
+{% endif %}
 test:
 	FLASK_ENV=test pytest tests/ -v --cov=delivery
 

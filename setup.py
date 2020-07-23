@@ -1,4 +1,4 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 
 
 def read(filename):
@@ -6,10 +6,14 @@ def read(filename):
 
 
 setup(
-    name="start_flask_afp",
+    name="start_flask",
     version="0.1.0",
     description="Start a Flask project in a Application Factory Pattern",
-    packages=find_packages(),
+    author="Cesar Godoi",
+    author_email="cesar.godoi@gmail.com",
+    packages=["start_flask"],
+    package_dir={"start_flask": "start_flask"},
+    entry_points={"console_scripts": ["start_flask=start_flask.cli:main"]},
     include_package_data=True,
-    install_requires=read("requirements.txt"),
+    install_requires=["jinja2", "Click"],
 )

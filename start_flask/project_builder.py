@@ -1,30 +1,30 @@
 import os
-import sys
 from jinja2 import Environment, FileSystemLoader
 
 
-class Project:
-    def __init__(self, proj, afp, venv, sqlal):
+class ProjectBuilder:
+    def __init__(self, proj, afp, sqlal):
         self.proj = proj
         self.afp = afp
-        self.venv = venv
         self.sqlal = sqlal
-        self.context = {"proj": proj, "afp": afp, "venv": venv, "sqlal": sqlal}
+        self.context = {"proj": proj, "afp": afp, "sqlal": sqlal}
+        self.templates = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "templates"
+        )
 
-    def render_template(self, template):
-        if "/" in template:
-            _input = "/".join(template.split("/")[1:])
+    def render_template(self, path):
+        if "/" in path:
+            _template = "/".join(path.split("/")[1:])
         else:
-            _input = template
+            _template = path
 
-        env = Environment(loader=FileSystemLoader("start_flask/templates"))
-        _template = env.get_template(_input)
+        env = Environment(loader=FileSystemLoader(self.templates))
+        template = env.get_template(_template)
 
-        with open(f"{self.proj}/{template}", "w") as fl:
-            fl.write(_template.render(self.context))
+        with open(f"{self.proj}/{path}", "w") as fl:
+            fl.write(template.render(self.context))
 
-    def dir_extrutures(self):
-        print("\n1 - Creating the directories extruture ...")
+    def directories(self):
         if self.afp:
             # /
             os.system(f"mkdir {self.proj}")
@@ -54,8 +54,7 @@ class Project:
             # /proj/tests
             os.system(f"mkdir {self.proj}/tests")
 
-    def write_files(self):
-        print("2 - Writing texts content in files ...")
+    def files(self):
         # /
         os.system(f"touch {self.proj}/LICENCE")
         os.system(f"touch {self.proj}/README.md")
@@ -64,7 +63,7 @@ class Project:
         self.render_template("Makefile")
         self.render_template("setup.py")
 
-        # /proj
+        # /proj (app)
         if self.afp:
             os.system(f"touch {self.proj}/{self.proj}/__init__.py")
             self.render_template(f"{self.proj}/app.py")
@@ -97,52 +96,9 @@ class Project:
                 self.render_template(f"{self.proj}/ext/auth/__init__.py")
                 self.render_template(f"{self.proj}/ext/auth/models.py")
                 self.render_template(f"{self.proj}/ext/auth/admin.py")
-            
 
     def create_venv(self):
-        print("3 - Creating virtual env (.venv) ...")
         os.chdir(f"{self.proj}")
         os.system("python3 -m venv .venv")
         os.system(".venv/bin/pip install -q --upgrade pip")
         os.system(".venv/bin/pip install -q -r requirements.txt")
-
-
-# Starting project #############################################################
-def start_flask():
-    print("\n### Flask Project Builder ###\n")
-
-    proj, afp, venv, sqlal = "", None, None, None
-
-    # trying to get: proj, venv and sqlal on the command line
-    if sys.argv[1:]:
-        proj = sys.argv[1]
-        afp = True if "--afp" in sys.argv[1:] else False
-        venv = True if "--venv" in sys.argv[1:] else False
-        sqlal = True if "--sqlal" in sys.argv[1:] else False
-
-    while not proj:
-        print("Enter the project name.")
-        proj = input().replace(" ", "_")
-
-    # to use a virtual environment?
-    if not afp:
-        print("Do you want to use the Application Factory Pattern? (Y/n)")
-        afp = True if input() in "YySs" else False
-
-    # to use a virtual environment?
-    if not venv:
-        print("Do you want to use the .venv? (Y/n)")
-        venv = True if input() in "YySs" else False
-
-    # to use SQLAlchemy?
-    if not sqlal and afp is True:
-        print("Do you want to use the SQLAlchemy? (Y/n)")
-        sqlal = True if input() in "YySs" else False
-
-    project = Project(proj, afp, venv, sqlal)
-    project.dir_extrutures()
-    project.write_files()
-    if venv:
-        project.create_venv()
-
-    print("\nAll done!")
