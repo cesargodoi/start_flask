@@ -39,7 +39,7 @@ In the `Makefile` file, we have some useful commands, which we use with the `mak
 | `make test`        | run tests                                           |
 | `make run`         | run flask                                           |
 | `make run-dev`     | run flask in the development environment            |
-| `make init-db`     | starts and updates the dd (if you choose `--sqlal`) |
+| `make init-db`     | starts and updates the db (if you choose `--sqlal`) |
 | `make format`      | formats the files (needs: isort and black)          |
 
 
