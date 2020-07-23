@@ -19,15 +19,16 @@ Start a new Flask project on the application factory model.
 > ~~~
 4. Create your new projects:
 > ~~~sh
-> $ ./startproject <project_name> --[arg]
+> $ start_flask project_name [options]
+> or
+> $ start_flask [options] project_name
 > ~~~
 
 > IMPORTANT
 > - Do not use spaces in your project name.  Prefer underscores instead spaces.
-> - The `--sfp` argument indicates that you want to create a new Flask project on Application Factory Pattern.
-> - The `--venv` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
-> - The `--sqlal` argument indicates that you want to install SQLAlchemy in your project.
-   
+> - The `--sfp` option indicates that you want to create a new Flask project on Application Factory Pattern.
+> - The `--venv` option indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
+> - The `--sqlal` option indicates that you want to install SQLAlchemy in your project.
 
 In the `Makefile` file, we have some useful commands, which we use with the `make` command, such as:   
 
