@@ -1,0 +1,17 @@
+include start_flask/templates/app.py
+include start_flask/templates/conftest.py
+include start_flask/templates/Makefile
+include start_flask/templates/requirements-dev.txt
+include start_flask/templates/requirements.txt
+include start_flask/templates/setup.py
+include start_flask/templates/test_app.py
+include start_flask/templates/ext/admin.py
+include start_flask/templates/ext/cli.py
+include start_flask/templates/ext/config.py
+include start_flask/templates/ext/auth/admin.py
+include start_flask/templates/ext/auth/__init__.py
+include start_flask/templates/ext/auth/models.py
+include start_flask/templates/ext/db/commands.py
+include start_flask/templates/ext/db/__init__.py
+include start_flask/templates/ext/site/__init__.py
+include start_flask/templates/ext/site/main.py
