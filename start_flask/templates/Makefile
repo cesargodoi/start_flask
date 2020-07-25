@@ -15,12 +15,6 @@ install:
 
 install-dev:
 	pip install -e .['dev']
-
-run:
-	FLASK_APP={{ proj }}/app.py flask run
-
-run-dev:
-	FLASK_APP={{ proj }}/app.py FLASK_ENV=development flask run
 {% if sqlal %}
 init-db:
 	FLASK_APP=delivery/app.py flask create-db

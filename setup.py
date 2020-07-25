@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="start_flask",
-    version="0.1.0",
+    version="0.1.2",
     author="Cesar Godoi",
     author_email="cesar.godoi@gmail.com",
     packages=["start_flask"],

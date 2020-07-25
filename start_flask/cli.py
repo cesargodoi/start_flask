@@ -1,4 +1,3 @@
-import os
 import click
 
 from start_flask.project_builder import ProjectBuilder
@@ -9,7 +8,11 @@ from start_flask.project_builder import ProjectBuilder
 @click.option("--afp", is_flag=True, help="Application Factory Pattern.")
 @click.option("--sqlal", is_flag=True, help="Install SQLAlchemy.")
 @click.option("--venv", is_flag=True, help="Install virtual environment.")
-def main(project_name, afp, sqlal, venv):
+@click.option("--all", is_flag=True, help="All options(afp + sqlal + venv).")
+def main(project_name, afp, sqlal, venv, all):
+
+    if all:
+        afp, sqlal, venv = True, True, True
 
     click.echo("\n### Flask Project Builder ###\n")
     click.echo(f"- Project name: {project_name}")
