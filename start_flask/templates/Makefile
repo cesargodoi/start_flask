@@ -9,6 +9,7 @@ clean:
 	rm -rf htmlcov
 	rm -rf .tox/
 	rm -rf docs/_build
+	pip install -e .['dev'] --upgrade --no-cache
 
 install:
 	pip install -e .
@@ -17,11 +18,11 @@ install-dev:
 	pip install -e .['dev']
 {% if sqlal %}
 init-db:
-	FLASK_APP=delivery/app.py flask create-db
-	FLASK_APP=delivery/app.py flask db upgrade
+	FLASK_APP={{ proj }}/app.py flask create-db
+	FLASK_APP={{ proj }}/app.py flask db upgrade
 {% endif %}
 test:
-	FLASK_ENV=test pytest tests/ -v --cov=delivery
+	FLASK_ENV=test pytest tests/ -v --cov={{ proj }}
 
 format:
 	isort **/*.py

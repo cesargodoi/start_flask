@@ -80,6 +80,7 @@ class ProjectBuilder:
             os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
             self.render_template(f"{self.proj}/ext/config.py")
             self.render_template(f"{self.proj}/ext/cli.py")
+            self.render_template(f"{self.proj}/ext/toolbar.py")
             if self.sqlal:
                 self.render_template(f"{self.proj}/ext/admin.py")
 
