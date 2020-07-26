@@ -8,6 +8,7 @@ include start_flask/templates/test_app.py
 include start_flask/templates/ext/admin.py
 include start_flask/templates/ext/cli.py
 include start_flask/templates/ext/config.py
+include start_flask/templates/ext/toolbar.py
 include start_flask/templates/ext/auth/admin.py
 include start_flask/templates/ext/auth/__init__.py
 include start_flask/templates/ext/auth/models.py
