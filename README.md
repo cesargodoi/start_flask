@@ -2,22 +2,16 @@
 Start a new Flask project on the application factory model.      
 
 ## How to use
-1. Clone this repository: 
+
+1. Update the pip in your virtual environment:
 > ~~~sh
-> $ git clone git@github.com:cesargodoi/start_flask.git
-> ~~~
-2. Install virtual environment and update pip:
-> ~~~sh
-> $ cd start_flask
-> $ python3 -m venv .venv
-> $ source .venv/bin/activate
 > $ pip install --upgrade pip
 > ~~~
-3. Install start_flask package:
+2. Install start_flask package:
 > ~~~sh
-> $ make install
+> $ pip install -i https://test.pypi.org/simple/ start-flask
 > ~~~
-4. Create your new projects:
+3. Create your new projects:
 > ~~~sh
 > $ start_flask project_name [options]
 > or
