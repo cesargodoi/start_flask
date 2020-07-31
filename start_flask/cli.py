@@ -25,8 +25,8 @@ def main(project_name, afp, sqlal, venv, all):
     click.echo("- Writing the files ...")
     project.files()
 
-    if venv:
-        click.echo("- Creating virtual environment as .venv ...")
-        project.create_venv()
+    # if venv:
+    #     click.echo("- Creating virtual environment as .venv ...")
+    #     project.create_venv()
 
     click.echo("\nAll done!")

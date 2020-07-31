@@ -46,6 +46,8 @@ class ProjectBuilder:
                 os.system(f"mkdir {self.proj}/{self.proj}/ext/db")
                 # /proj/ext/auth
                 os.system(f"mkdir {self.proj}/{self.proj}/ext/auth")
+                # /proj/migrations
+                os.system(f"mkdir {self.proj}/migrations")
             # /proj/tests
             os.system(f"mkdir {self.proj}/tests")
         else:
