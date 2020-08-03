@@ -1,6 +1,15 @@
-from flask import Flask
-{%- if afp %}
-from {{ proj }}.ext import site, config, cli{{ ', db, admin, auth, toolbar' if sqlal else ''}}
+from flask import Flask {%- if not afp or not sqlal -%}, render_template{%- endif -%}
+{%- if afp and dyna %}
+from {{ proj }}.ext import config
+
+
+def create_app():
+    app = Flask(__name__)
+    config.init_app(app)
+    return app
+
+{%- elif afp %}
+from {{ proj }}.ext import site, config, cli{{ ', db, migrate, admin, auth, toolbar' if sqlal else ''}}
 
 
 def create_app():
@@ -8,9 +17,10 @@ def create_app():
     config.init_app(app)
     {%- if sqlal %}
     db.init_app(app)
+    migrate.init_app(app)
     auth.init_app(app)
     admin.init_app(app)
-    toolbar.init_app(app)
+    # toolbar.init_app(app)
     {%- endif %}
     # here we invoke each extension's init_app function
     cli.init_app(app)
@@ -42,6 +52,6 @@ class User(db.Model):
 
 @app.route('/')
 def index():
-    return 'Hello, {{ proj.upper() }}!'
+    return render_template("index.html")
 
 {%- endif %}

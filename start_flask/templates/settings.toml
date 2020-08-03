@@ -1,0 +1,31 @@
+[default]
+DEBUG = false
+EXTENSIONS = [
+  "{{ proj }}.ext.db:init_app",
+  "{{ proj }}.ext.migrate:init_app",
+  "{{ proj }}.ext.auth:init_app",
+  "{{ proj }}.ext.admin:init_app",
+  "{{ proj }}.ext.cli:init_app",
+  "{{ proj }}.ext.site:init_app",
+]
+FLASK_ADMIN_SWATCH = "darkly"
+
+[development]
+DEBUG = true
+DEBUG_TB_INTERCEPT_REDIRECTS = false
+DEBUG_TB_PROFILER_ENABLED = true
+DEBUG_TB_TEMPLATE_EDITOR_ENABLED = true
+EXTENSIONS = [
+  "{{ proj }}.ext.db:init_app",
+  "{{ proj }}.ext.migrate:init_app",
+  "{{ proj }}.ext.auth:init_app",
+  "{{ proj }}.ext.admin:init_app",
+  "{{ proj }}.ext.cli:init_app", # "{{ proj }}.ext.toolbar:init_app",
+  "{{ proj }}.ext.site:init_app",
+]
+SQLALCHEMY_DATABASE_URI = "sqlite:///{{ proj }}.db"
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+
+[production]
+SQLALCHEMY_DATABASE_URI = "mysql://...."
+SQLALCHEMY_TRACK_MODIFICATIONS = false

@@ -4,3 +4,6 @@ flask-sqlalchemy
 flask-migrate
 flask-admin
 {%- endif %}
+{%- if dyna %}
+dynaconf
+{%- endif %}

@@ -3,11 +3,12 @@ from jinja2 import Environment, FileSystemLoader
 
 
 class ProjectBuilder:
-    def __init__(self, proj, afp, sqlal):
+    def __init__(self, proj, afp, sqlal, dyna):
         self.proj = proj
         self.afp = afp
         self.sqlal = sqlal
-        self.context = {"proj": proj, "afp": afp, "sqlal": sqlal}
+        self.dyna = dyna
+        self.context = {"proj": proj, "afp": afp, "sqlal": sqlal, "dyna": dyna}
         self.templates = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "templates"
         )
@@ -41,6 +42,8 @@ class ProjectBuilder:
             os.system(f"mkdir {self.proj}/{self.proj}/ext")
             # /proj/ext/site
             os.system(f"mkdir {self.proj}/{self.proj}/ext/site")
+            # /proj/tests
+            os.system(f"mkdir {self.proj}/tests")
             if self.sqlal:
                 # /proj/ext/db
                 os.system(f"mkdir {self.proj}/{self.proj}/ext/db")
@@ -48,13 +51,13 @@ class ProjectBuilder:
                 os.system(f"mkdir {self.proj}/{self.proj}/ext/auth")
                 # /proj/migrations
                 os.system(f"mkdir {self.proj}/migrations")
-            # /proj/tests
-            os.system(f"mkdir {self.proj}/tests")
         else:
             # /
             os.system(f"mkdir {self.proj}")
             # /proj/tests
             os.system(f"mkdir {self.proj}/tests")
+            # /proj/templates
+            os.system(f"mkdir {self.proj}/templates")
 
     def files(self):
         # /
@@ -64,6 +67,9 @@ class ProjectBuilder:
         self.render_template("requirements-dev.txt")
         self.render_template("Makefile")
         self.render_template("setup.py")
+        if self.dyna:
+            self.render_template(".secrets.toml")
+            self.render_template("settings.toml")
 
         # /proj (app)
         if self.afp:
@@ -77,14 +83,21 @@ class ProjectBuilder:
         self.render_template("tests/conftest.py")
         self.render_template("tests/test_app.py")
 
+        # index in /proj/templates or /templates
+        if self.afp:
+            self.render_template(f"{self.proj}/templates/index.html")
+        else:
+            self.render_template(f"templates/index.html")
+
         # /proj/ext
         if self.afp:
             os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
             self.render_template(f"{self.proj}/ext/config.py")
             self.render_template(f"{self.proj}/ext/cli.py")
-            self.render_template(f"{self.proj}/ext/toolbar.py")
             if self.sqlal:
                 self.render_template(f"{self.proj}/ext/admin.py")
+                self.render_template(f"{self.proj}/ext/migrate.py")
+                self.render_template(f"{self.proj}/ext/toolbar.py")
 
             # /proj/ext/site
             self.render_template(f"{self.proj}/ext/site/main.py")

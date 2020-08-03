@@ -21,8 +21,9 @@ Start a new Flask project on the application factory model.
 > IMPORTANT
 > - Do not use spaces in your project name.  Prefer underscores instead spaces.
 > - The `--afp` option indicates that you want to create a new Flask project on Application Factory Pattern.
-> - The `--venv` option indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
-> - The `--sqlal` option indicates that you want to install SQLAlchemy in your project.
+> - The `--venv` option indicates that you want to create a virtual environment.  _It will be created inside the project's root folder as `.venv`_.
+> - The `--sqlal` option indicates that you want to install [Flask SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) in your project.
+> - The `--dyna` option indicates that you want to install [Dynaconf](https://dynaconf.readthedocs.io/en/docs_223/) in your project.
 > - The `--all` option indicates that you want to install all options (afp + venv + sqlal).
 > - If you chose the Application Factory Pattern (`--afp`), don't forget to update the FLASK_APP environment variable:
 >> ~~~sh
@@ -32,6 +33,13 @@ Start a new Flask project on the application factory model.
 >> ~~~sh
 >> $ export FLASK_ENV=development
 >> ~~~
+> - if you are using the Application Factory Pattern and want to use the `flask-toolbar`, run the command:
+>> ~~~sh
+>> $ pip install flask-toolbar
+>> ~~~
+>> and uncomment the line:   
+>> `# toolbar.init_app(app)` at `app.py` file or   
+>> `# "project_name.ext.toolbar:init_app"` in `settings.toml` _(when you are using Dynaconf)_   
 <br>
 
 In the `Makefile` file, we have some useful commands, which we use with the `make` command, such as:   
@@ -46,86 +54,6 @@ In the `Makefile` file, we have some useful commands, which we use with the `mak
 | `make format`      | formats the files (needs: isort and black)          |
 <br>
 
-## Structures provided
-### Basic or Basic with SQLAlchemy
-~~~bash
-project_name
-├── app.py
-├── __init__.py
-├── LICENCE
-├── Makefile
-├── README.md
-├── requirements-dev.txt
-├── requirements.txt
-├── setup.py
-└── tests
-    ├── conftest.py
-    └── test_app.py
-~~~
-### Application Factory Pattern
-~~~bash
-project_name
-├── project_name
-│   ├── app.py
-│   ├── ext
-│   │   ├── cli.py
-│   │   ├── config.py
-│   │   ├── __init__.py
-│   │   └── site
-│   │       ├── __init__.py
-│   │       └── main.py
-│   ├── __init__.py
-│   ├── static
-│   │   ├── css
-│   │   ├── img
-│   │   └── js
-│   └── templates
-├── LICENCE
-├── Makefile
-├── README.md
-├── requirements-dev.txt
-├── requirements.txt
-├── setup.py
-└── tests
-    ├── conftest.py
-    └── test_app.py
-~~~
-### Application Factory Pattern and SQLAlchemy
-~~~bash
-project_name
-├── LICENCE
-├── Makefile
-├── project_name
-│   ├── app.py
-│   ├── ext
-│   │   ├── admin.py
-│   │   ├── auth
-│   │   │   ├── admin.py
-│   │   │   ├── __init__.py
-│   │   │   └── models.py
-│   │   ├── cli.py
-│   │   ├── config.py
-│   │   ├── db
-│   │   │   ├── commands.py
-│   │   │   └── __init__.py
-│   │   ├── __init__.py
-│   │   └── site
-│   │       ├── __init__.py
-│   │       └── main.py
-│   ├── __init__.py
-│   ├── static
-│   │   ├── css
-│   │   ├── img
-│   │   └── js
-│   └── templates
-├── README.md
-├── requirements-dev.txt
-├── requirements.txt
-├── setup.py
-└── tests
-    ├── conftest.py
-    └── test_app.py
-~~~
 ---
 
 This python script was created by Cesar and Jady Godoi during [Curso de Desenvolvimento Web](http://skip.gg/curso-flask-codeshow) taught by Bruno Rocha.
