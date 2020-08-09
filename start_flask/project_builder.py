@@ -1,4 +1,5 @@
 import os
+from base64 import b16encode
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -8,7 +9,14 @@ class ProjectBuilder:
         self.afp = afp
         self.sqlal = sqlal
         self.dyna = dyna
-        self.context = {"proj": proj, "afp": afp, "sqlal": sqlal, "dyna": dyna}
+        secret = b16encode(os.urandom(16)).decode("utf-8")
+        self.context = {
+            "proj": proj,
+            "afp": afp,
+            "sqlal": sqlal,
+            "dyna": dyna,
+            "secret": str(secret) if dyna else "",
+        }
         self.templates = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "templates"
         )
@@ -68,6 +76,7 @@ class ProjectBuilder:
         self.render_template("Makefile")
         self.render_template("setup.py")
         if self.dyna:
+            self.render_template(".env")
             self.render_template(".secrets.toml")
             self.render_template("settings.toml")
 
@@ -94,6 +103,7 @@ class ProjectBuilder:
             os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
             self.render_template(f"{self.proj}/ext/config.py")
             self.render_template(f"{self.proj}/ext/cli.py")
+            self.render_template(f"{self.proj}/ext/hooks.py")
             if self.sqlal:
                 self.render_template(f"{self.proj}/ext/admin.py")
                 self.render_template(f"{self.proj}/ext/migrate.py")

@@ -5,6 +5,8 @@ include start_flask/templates/requirements-dev.txt
 include start_flask/templates/requirements.txt
 include start_flask/templates/settings.toml
 include start_flask/templates/.secrets.toml
+include start_flask/templates/.env
+include start_flask/templates/.gitignore
 include start_flask/templates/setup.py
 include start_flask/templates/test_app.py
 include start_flask/templates/index.html
@@ -14,6 +16,7 @@ include start_flask/templates/ext/cli.py
 include start_flask/templates/ext/config.py
 include start_flask/templates/ext/migrate.py
 include start_flask/templates/ext/toolbar.py
+include start_flask/templates/ext/hooks.py
 include start_flask/templates/ext/auth/admin.py
 include start_flask/templates/ext/auth/__init__.py
 include start_flask/templates/ext/auth/models.py

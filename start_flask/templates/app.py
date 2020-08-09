@@ -9,7 +9,7 @@ def create_app():
     return app
 
 {%- elif afp %}
-from {{ proj }}.ext import site, config, cli{{ ', db, migrate, admin, auth, toolbar' if sqlal else ''}}
+from {{ proj }}.ext import site, config, cli, hooks{{ ', db, migrate, admin, auth, toolbar' if sqlal else ''}}
 
 
 def create_app():
@@ -25,6 +25,7 @@ def create_app():
     # here we invoke each extension's init_app function
     cli.init_app(app)
     site.init_app(app)
+    hooks.init_app(app)
     return app
     
 {%- else %}

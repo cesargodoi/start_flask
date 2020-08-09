@@ -6,4 +6,5 @@ flask-admin
 {%- endif %}
 {%- if dyna %}
 dynaconf
+python-dotenv
 {%- endif %}

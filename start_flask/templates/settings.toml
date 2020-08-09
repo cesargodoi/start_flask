@@ -1,5 +1,5 @@
 [default]
-DEBUG = false
+DEBUG = false 
 EXTENSIONS = [
   "{{ proj }}.ext.db:init_app",
   "{{ proj }}.ext.migrate:init_app",
@@ -7,8 +7,9 @@ EXTENSIONS = [
   "{{ proj }}.ext.admin:init_app",
   "{{ proj }}.ext.cli:init_app",
   "{{ proj }}.ext.site:init_app",
-]
-FLASK_ADMIN_SWATCH = "darkly"
+  "{{ proj }}.ext.hooks:init_app",
+] 
+FLASK_ADMIN_SWATCH = "slate" # choose another theme at https://bootswatch.com/
 
 [development]
 DEBUG = true
@@ -22,6 +23,7 @@ EXTENSIONS = [
   "{{ proj }}.ext.admin:init_app",
   "{{ proj }}.ext.cli:init_app", # "{{ proj }}.ext.toolbar:init_app",
   "{{ proj }}.ext.site:init_app",
+  "{{ proj }}.ext.hooks:init_app",
 ]
 SQLALCHEMY_DATABASE_URI = "sqlite:///{{ proj }}.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = false

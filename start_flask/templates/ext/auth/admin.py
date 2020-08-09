@@ -12,31 +12,22 @@ class UserAdmin(ModelView):
     def format_user(self, request, user, *args):
         return user.email.split('@')[0]
 
-    column_formatters = {
-        'email': format_user
-    }
-
+    column_formatters = {'email': format_user}
     column_list = ['admin', 'email']
-
     column_labels = {'email': 'User login'}
-
     column_searchable_list = ['email']
-
     column_filters = [
-        'email',        'admin',
+        'email',
+        'admin',
         filters.FilterLike(
             User.email, 'dominio', options=(
                 ('gmail', 'Gmail'), ('uol', 'Uol')
             )
         ),
     ]
-
     can_edit = False
-
     can_create = True
-
     can_delete = True
-
     # exemple of flask action
     @action('toggle_admin', 'Toggle admin status', 'Are you sure?')
     def toggle_admin_status(self, ids):
@@ -45,4 +36,6 @@ class UserAdmin(ModelView):
             user.admin = not user.admin
         db.session.commit()
         flash('Success!', 'success')
-        
+
+    # See other customizations at:
+    # https://flask-admin.readthedocs.io/en/latest/introduction/#customizing-built-in-views
