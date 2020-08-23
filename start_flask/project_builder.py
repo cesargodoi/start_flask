@@ -15,6 +15,7 @@ class ProjectBuilder:
     afp -> Application Factory Pattern
     sqlal -> SQLAlchemy
     dyna -> Dynaconf
+    dir_to_render --> if you are using on the web
 
     methods: 
     create_venv -> create a virtual environment
@@ -22,7 +23,7 @@ class ProjectBuilder:
     make_zipfile -> compress the project using zip
     """
 
-    def __init__(self, proj, afp, sqlal, dyna):
+    def __init__(self, proj, afp, sqlal, dyna, dir_to_render=None):
         self.proj = proj
         self.afp = afp
         self.sqlal = sqlal
@@ -38,6 +39,8 @@ class ProjectBuilder:
         self.templates = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "templates"
         )
+        if dir_to_render:
+            os.chdir(dir_to_render)
 
     def render_template(self, path):
         if "/" in path:
@@ -162,3 +165,4 @@ class ProjectBuilder:
             for file_ in file_paths:
                 zip_file.write(file_)
         os.system(f"rm -rf {self.proj}")
+
