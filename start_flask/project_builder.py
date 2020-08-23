@@ -1,9 +1,27 @@
 import os
+
+from tarfile import TarFile
+from zipfile import ZipFile
 from base64 import b16encode
 from jinja2 import Environment, FileSystemLoader
 
 
 class ProjectBuilder:
+    """
+    Generates the structure of a flask project. 
+    
+    arguments: 
+    proj -> project_name (using underscores)
+    afp -> Application Factory Pattern
+    sqlal -> SQLAlchemy
+    dyna -> Dynaconf
+
+    methods: 
+    create_venv -> create a virtual environment
+    make_tarfile -> compress the project using tar
+    make_zipfile -> compress the project using zip
+    """
+
     def __init__(self, proj, afp, sqlal, dyna):
         self.proj = proj
         self.afp = afp
@@ -128,3 +146,19 @@ class ProjectBuilder:
         os.system("python3 -m venv .venv")
         os.system(".venv/bin/pip install -q --upgrade pip")
         os.system(".venv/bin/pip install -q -r requirements.txt")
+
+    def make_tarfile(self):
+        with TarFile.open(f"{self.proj}.tar.gz", "w:gz") as tar_file:
+            tar_file.add(self.proj)
+        os.system(f"rm -rf {self.proj}")
+
+    def make_zipfile(self):
+        file_paths = []
+        for root, directories, files in os.walk(self.proj):
+            for filename in files:
+                file_path = os.path.join(root, filename)
+                file_paths.append(file_path)
+        with ZipFile(f"{self.proj}.zip", "w") as zip_file:
+            for file_ in file_paths:
+                zip_file.write(file_)
+        os.system(f"rm -rf {self.proj}")
