@@ -10,7 +10,7 @@ from start_flask.project_builder import ProjectBuilder
 @click.option("--dyna", is_flag=True, help="Install Dynaconf.")
 @click.option("--venv", is_flag=True, help="Install virtual environment.")
 @click.option(
-    "--all", is_flag=True, help="All options(afp + sqlal + dyne + venv)."
+    "--all", is_flag=True, help="All options(afp + sqlal + dyna + venv)."
 )
 def main(project_name, afp, sqlal, dyna, venv, all):
 
